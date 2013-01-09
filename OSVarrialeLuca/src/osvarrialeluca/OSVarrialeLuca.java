@@ -19,6 +19,7 @@ public class OSVarrialeLuca {
     String _String;
     int _int;   
     
+    
       System.out.println("quanti regali vuoi creare? ");
          br = new BufferedReader(new InputStreamReader(System.in));
          try
@@ -38,6 +39,7 @@ public class OSVarrialeLuca {
       Negozio negozio = new Negozio(numRichieste);
       BabboNatale babboNatale = new BabboNatale("santa claus", negozio);
       
+      
       System.out.println("quanti elfi vuoi a disposizione? ");
          br = new BufferedReader(new InputStreamReader(System.in));
          try
@@ -45,13 +47,12 @@ public class OSVarrialeLuca {
          _String = br.readLine();
          _int = Integer.parseInt(_String);
          numElfi = _int;
-      }catch (IOException e1)
+      }catch (IOException e)
       {
-         System.out.println ("errore di flusso.");
+         System.out.println (e);
       }
       catch (NumberFormatException e2)
-      {System.out.println("Errore di input da tastiera.");
-       System.out.print("inserire un numero intero ");
+      {System.out.println(e2);
       }
         Elfo elfi[] = new Elfo[numElfi];
         for(int i=0; i<numElfi; i++) {

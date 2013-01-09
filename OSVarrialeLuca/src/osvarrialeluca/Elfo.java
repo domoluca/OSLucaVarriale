@@ -55,28 +55,25 @@ public class Elfo extends Thread{
     }
     
     public void richiediAiuto(int pid){
-        if (negozio.richieste > 0){
-        try {
-            negozio.semaforo.acquire();
+        if (negozio.richieste > 0 && negozio.dimStack < 4){
+        /*try {
+            //negozio.semaforo.acquire();
         } catch (InterruptedException ex) {
             Logger.getLogger(Elfo.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            
+        }*/
         negozio.help(pid);
-        try {
-            Thread.sleep(100000000);
+        }
+        
+        /*try {
+            Thread.sleep(1000000000);
         } catch (InterruptedException ex) {
             Logger.getLogger(Elfo.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
         }
-        }
-        else{
         
-        
-        }
         
     }
     
 
     
 
-}
