@@ -4,6 +4,8 @@
  */
 package osvarrialeluca;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class BabboNatale extends Thread{
@@ -16,17 +18,21 @@ super(nome);
 this.negozio = negozio;
     }
 public void run(){
-    System.out.println("sono babbo natale e sono partito");
-    while (negozio.dormi == true){
-           try {
-                Thread.sleep(1);
-            }catch (Exception ex) {
-                System.out.println(ex);
+    while(true){
+        while (this.negozio.dormi == true){
+        try{         
+            Thread.sleep(1);
+            }catch(Exception e){
+            System.out.println(e);
             }
+        }
+           System.out.println("Babbo Natale aggiusta");
+           this.negozio.risolvi();
+           //negozio.lockHelp.unlock();
     }
-    System.out.println("Babbo natale si è svegliato");
-    negozio.risolvi();
-
+    //this.negozio.lockHelp.lock();
+       
+         
 }
 
 

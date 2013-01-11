@@ -6,6 +6,8 @@ package osvarrialeluca;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Luca
@@ -20,13 +22,17 @@ public class Negozio {
     int dimStack = 0;
     int permessi = 3;
     boolean dormi = true; 
-    Semaphore semaforo = new Semaphore(3);
+    Semaphore semaforo = new Semaphore(0);
+    Lock lockHelp = new ReentrantLock();
     Lock richiesta = new ReentrantLock();
-    
+    boolean puoiRichiedere = true;
+    boolean elfoDormi = false;
+    Semaphore semHelp = new Semaphore(0);
     
     public Negozio(int rc){
+        this.semHelp = new Semaphore(3);
         this.richieste = rc;
-        BabboNatale babboNatale = new BabboNatale("", this);
+        //BabboNatale babboNatale = new BabboNatale("", this);
         //Stack stack = new Stack();
         //Semaphore semaforo = new Semaphore(3);
         }
@@ -43,86 +49,77 @@ public class Negozio {
     
     }
     
-    public void help(int pid){
-    //babboNatale.stampa();
     
-    //BabboNatale babboNatale = new BabboNatale("", this);
-       
     
-   
-    if (richieste > 0 && dimStack < 3){
+    public void help(int pid, String nome){
+     if(this.richieste > 0){
+        this.lockHelp.lock();
+            try {
+                stack.push(pid);
+                System.out.println("help1");
+                System.out.println("inserisco nello stack: "+stack.lastElement());
+                System.out.println("lo stack contiene : "+stack.size()+" elementi");
+             } finally {
+               lockHelp.unlock();
+            }
+            if (stack.size() == 3){
+            this.dormi = false;
+            System.out.println("help2");
+            }
+             
+
+   //  }
+     //else { 
+       // this.dormi = false;
+        //System.out.println("help2");
+        //lockHelp.lock();
+     }
+     // if (richieste == 0 && !stack.isEmpty()){
+     //System.out.println("help3");
+     //}
+   }
     
-    try{
-        
-        semaforo.acquire();  
-        stack.push(pid);
-        System.out.println("help1");
-        dimStack++;
-    }catch(Exception e){
-            System.out.println(e);
-        }  
-    /* if(!stack.isEmpty()){ 
-        System.out.println("stack non vuoto");}
-        else{ System.out.println("stack vuoto");
-        }*/
-    //
+  
     
-    }
-    else if(dimStack == 4){
-        
-        dormi = false;
-        System.out.println("help2");
-        //babboNatale.risolvi();
-        
-        }
-    
-    else {
-        
-        dormi = false;
-        //babboNatale.risolvi(stack);
-        //svuotare lo stack 
-        // e riempire il nuovo stack con anche le ulteriori
-        //richieste pervenute
-    }
-    }
     
     public void risolvi(){
-     Lock risolvi = new ReentrantLock();
-     risolvi.lock();
-     System.out.println(" babbo natale aggiusta: "+stack.pop());
-     //negozio.stack.pop();
-     try{BabboNatale.sleep(200);
-        }catch(Exception e){
-        System.out.println(e);}
- 
-     //System.out.println(" babbo natale aggiusta: "+negozio.stack.get(1));
-     //negozio.stack.pop();
-     System.out.println(" babbo natale aggiusta: "+stack.pop());
-     try{BabboNatale.sleep(200);
-        }catch(Exception e){
-        System.out.println(e);}
-     
-     //System.out.println(" babbo natale aggiusta: "+negozio.stack.get(0));
-     //negozio.stack.pop();
-     System.out.println(" babbo natale aggiusta: "+stack.pop());
-     try{BabboNatale.sleep(200);
-        }catch(Exception e){
-        System.out.println(e);}
-     
+     lockHelp.lock();
+        try {
+            while (stack.size() != 0){
+            System.out.println(" babbo natale aggiusta: "+stack.lastElement());
+            stack.pop();
+            try{BabboNatale.sleep(200);
+               }catch(Exception e){
+               System.out.println(e);}
         
-        try{
-       semaforo.release(3);
-       //semaforo.release();
-       //semaforo.release();
-        }catch(Exception e){
-            System.out.println(e);
-        }  
-       dimStack = 0;
-       dormi = true;
-       risolvi.unlock();
+            //System.out.println(" babbo natale aggiusta: "+negozio.stack.get(1));
+            //negozio.stack.pop();
+            System.out.println(" babbo natale aggiusta: "+stack.lastElement());
+            stack.pop();
+            try{BabboNatale.sleep(200);
+               }catch(Exception e){
+               System.out.println(e);}
+            
+            //System.out.println(" babbo natale aggiusta: "+negozio.stack.get(0));
+            //negozio.stack.pop();
+            System.out.println(" babbo natale aggiusta: "+stack.lastElement());
+            stack.pop();
+            try{BabboNatale.sleep(200);
+               }catch(Exception e){
+               System.out.println(e);}
+               //risolvi.unlock();
+            }
+            } finally {
+            
+            
+            lockHelp.unlock();
+            this.dormi=true;
+            this.semHelp.release(3);
+            }
 }
-   
+  
+   }
     
 
 
-}
+

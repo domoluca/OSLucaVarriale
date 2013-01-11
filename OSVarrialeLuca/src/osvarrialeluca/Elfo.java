@@ -24,19 +24,23 @@ public class Elfo extends Thread{
     
     public void run(){
     System.out.println("sono l'"+this.nome+" e sono partito");   
-    while(negozio.richieste > 0){
+    while(this.negozio.richieste > 0){
         int possibileGuasto = (int)(Math.random()*99);
-        negozio.richiestaRegalo();
-        int pid = negozio.richiestaAttuale;
+        this.negozio.richiestaRegalo();
+        int pid = this.negozio.richiestaAttuale;
         if (possibileGuasto > 44){
         produci(pid);
         }
         else{
-            System.out.println("sono l'"+nome+", c'è stato un guasto con il regalo "+pid);
-            //negozio.richiestaAttuale++;
-            //negozio.richieste--;
-            richiediAiuto(pid);
-        }
+            try {
+                 this.negozio.semHelp.acquire();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Elfo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            //richiediAiuto(pid);
+            System.out.println("sono l'"+nome+", c'è stato un guasto con il regalo "+pid);                
+            this.negozio.help(pid, nome);      
+            }
         
    
     }
@@ -45,6 +49,7 @@ public class Elfo extends Thread{
     
     
     public void produci(int pid){
+        
         System.out.println("sono l'"+nome+" e servo la richiesta "+pid);
         int eseguo = (int) (Math.random() * 101) + 100;  
         try{         
@@ -55,25 +60,16 @@ public class Elfo extends Thread{
     }
     
     public void richiediAiuto(int pid){
-        if (negozio.richieste > 0 && negozio.dimStack < 4){
-        /*try {
-            //negozio.semaforo.acquire();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Elfo.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-        negozio.help(pid);
-        }
-        
-        /*try {
-            Thread.sleep(1000000000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Elfo.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-        }
-        
+        //this.negozio.lockHelp.lock();
+        this.negozio.help(pid, nome);
+        //this.negozio.lockHelp.unlock();
+        /*try{         
+            Thread.sleep(1);
+            richiediAiuto(pid);
+            }catch(Exception e){
+            System.out.println(e);
+            }*/
         
     }
-    
-
-    
-
+        
+}
