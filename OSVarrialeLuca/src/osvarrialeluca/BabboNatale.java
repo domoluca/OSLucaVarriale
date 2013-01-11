@@ -28,12 +28,8 @@ public void run(){
         }
            System.out.println("Babbo Natale aggiusta");
            this.negozio.risolvi();
-           //negozio.lockHelp.unlock();
-    }
-    //this.negozio.lockHelp.lock();
-       
-         
-}
+           }
+           }
 
 
 }

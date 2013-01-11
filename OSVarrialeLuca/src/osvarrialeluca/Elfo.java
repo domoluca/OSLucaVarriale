@@ -39,14 +39,17 @@ public class Elfo extends Thread{
             }
             //richiediAiuto(pid);
             System.out.println("sono l'"+nome+", c'è stato un guasto con il regalo "+pid);                
-            this.negozio.help(pid, nome);      
+            this.negozio.help(pid);      
+            while(this.negozio.risolto = false){
+                try{         
+                     Thread.sleep(1);
+                    }catch(Exception e){
+                    System.out.println(e);
+                    }
             }
-        
-   
+        }
     }
-    
-    }
-    
+}
     
     public void produci(int pid){
         
@@ -57,19 +60,6 @@ public class Elfo extends Thread{
             }catch(Exception e){
             System.out.println(e);
             }
-    }
+      }
     
-    public void richiediAiuto(int pid){
-        //this.negozio.lockHelp.lock();
-        this.negozio.help(pid, nome);
-        //this.negozio.lockHelp.unlock();
-        /*try{         
-            Thread.sleep(1);
-            richiediAiuto(pid);
-            }catch(Exception e){
-            System.out.println(e);
-            }*/
-        
-    }
-        
 }
