@@ -26,6 +26,7 @@ public void run(){
             System.out.println(e);
             }
         }
+           //this.negozio.risolto = false;
            System.out.println("Babbo Natale aggiusta");
            this.negozio.risolvi();
            }

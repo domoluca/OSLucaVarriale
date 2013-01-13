@@ -32,22 +32,24 @@ public class Elfo extends Thread{
         produci(pid);
         }
         else{
+            
             try {
                  this.negozio.semHelp.acquire();
+                 //this.negozio.risolto = true;
             } catch (InterruptedException ex) {
                 Logger.getLogger(Elfo.class.getName()).log(Level.SEVERE, null, ex);
             }
-            //richiediAiuto(pid);
             System.out.println("sono l'"+nome+", c'è stato un guasto con il regalo "+pid);                
-            this.negozio.help(pid);      
-            while(this.negozio.risolto = false){
-                try{         
-                     Thread.sleep(1);
+            this.negozio.help(pid);
+            while(this.negozio.risolto == false){
+                try{
+                     Elfo.sleep(0);
                     }catch(Exception e){
                     System.out.println(e);
                     }
             }
         }
+         
     }
 }
     

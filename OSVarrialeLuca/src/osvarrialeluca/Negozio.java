@@ -25,7 +25,7 @@ public class Negozio {
     Semaphore semaforo = new Semaphore(0);
     Lock lockHelp = new ReentrantLock();
     Lock richiesta = new ReentrantLock();
-    boolean risolto = false;
+    boolean risolto;
     boolean elfoDormi = false;
     Semaphore semHelp = new Semaphore(0);
     Semaphore semExit = new Semaphore(0);
@@ -34,9 +34,6 @@ public class Negozio {
         this.semHelp = new Semaphore(3);
         this.semExit = new Semaphore(0);
         this.richieste = rc;
-        //BabboNatale babboNatale = new BabboNatale("", this);
-        //Stack stack = new Stack();
-        //Semaphore semaforo = new Semaphore(3);
         }
     
     public void richiestaRegalo(){
@@ -53,8 +50,13 @@ public class Negozio {
     
     public void help(int pid){
      if(this.richieste > 0){
-         this.risolto = false;
+         try{
+            Thread.sleep(2);
+            }catch(Exception e){
+             System.out.println(e);
+            }
          this.lockHelp.lock();
+         this.risolto = false;
             try {
                 stack.push(pid);
                 System.out.println("help1");
@@ -69,54 +71,39 @@ public class Negozio {
             }
         }
       else{
-         System.out.println("le richieste sono finite");
-              this.semHelp.release();
+          System.out.println("REGALI FINITI!!!!!");
               this.lockHelp.lock();
-              stack.push(pid);
-              System.out.println("ho aggiunto all'ulteriore stack il regalo "
-                                  +stack.lastElement());
-              this.lockHelp.unlock();
-              this.dormi = false;
+            try {
+                stack.push(pid);
+                System.out.println("ho aggiunto all'ulteriore stack il regalo "
+                                    +stack.lastElement());
+            } finally {
+                this.lockHelp.unlock();
+            }
+            this.dormi = false;
     }
     }       
          
 
    
     public void risolvi(){
-     lockHelp.lock();
+            lockHelp.lock();
         try {
-            while (stack.size() != 0){
+            while (!stack.isEmpty()){
             System.out.println(" babbo natale aggiusta: "+stack.lastElement());
             stack.pop();
             try{BabboNatale.sleep(200);
                }catch(Exception e){
                System.out.println(e);}
             }
-            } finally {
-            lockHelp.unlock();
-            this.dormi=true;
-            this.risolto = true;
+        } finally {
             this.semHelp.release(3);
+            lockHelp.unlock();
             }
-    }
-    
-    public void risolviTutto(){
-        try{
-            this.lockStackFine.lock();
-            while(!this.stackFine.isEmpty()){
-            System.out.println(" babbo natale aggiusta: "+stack.lastElement());
-            stack.pop();
-            try{BabboNatale.sleep(200);
-               }catch(Exception e){
-               System.out.println(e);}
-            }
-            } finally {
-            lockStackFine.unlock();
-            this.dormi=true;
-            }
-        }
-    
-  
+        this.risolto = true;
+        this.dormi = true;
+      }
+      
 }
     
 
