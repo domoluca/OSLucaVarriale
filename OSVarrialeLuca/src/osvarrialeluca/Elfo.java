@@ -12,6 +12,9 @@ import java.util.logging.Logger;
 public class Elfo extends Thread{
     Negozio negozio;
     private String nome;
+    long attesa = 0;
+    long lunghezza;
+    long mediaAttesa;
     Lock richieste = new ReentrantLock();
     
     public Elfo(Negozio ne, String nome){
@@ -48,14 +51,20 @@ public class Elfo extends Thread{
                     }
           }
             long temp1 = System.currentTimeMillis();
-            long attesa = (temp1 - temp);
+            attesa = attesa + (temp1 - temp);
+            lunghezza++;
             this.negozio.attesa(attesa);
     }  
     }
     if(!this.negozio.stack.isEmpty()){
             this.negozio.risolvi();
-            
     }
+            mediaAttesa = attesa/lunghezza;
+            System.out.println("*************"+
+                    " l'elf0 "+nome+"ha terminato "+
+                    "in media ha atteso per "+mediaAttesa+" millisecondi");
+            
+    
     
     }
     

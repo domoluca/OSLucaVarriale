@@ -121,9 +121,9 @@ public class Negozio {
     
     public void termina(){
     System.out.println("tutti i regali sono nella slitta!!!!!!!!!!!!!!!");
-      this.tempoMedio = this.tempoAttesa/this.lunghezza;
-        System.out.println("il tempo medio di attesa degli elfi è di "
-                           +this.tempoMedio+" millisecondi");
+      //this.tempoMedio = this.tempoAttesa/this.lunghezza;
+        //System.out.println("il tempo medio di attesa degli elfi è di "
+          //                 +this.tempoMedio+" millisecondi");
         this.lavora = false;
     
     }
