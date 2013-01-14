@@ -73,7 +73,7 @@ public class OSVarrialeLuca {
          System.out.println(e);
         }
        // babboNatale.join();
-        babboNatale.destroy();
+        babboNatale.interrupt();
         
 }
     }

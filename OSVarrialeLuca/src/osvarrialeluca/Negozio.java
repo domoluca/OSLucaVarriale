@@ -6,8 +6,8 @@ package osvarrialeluca;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
 /**
  *
  * @author Luca
@@ -73,8 +73,7 @@ public class Negozio {
                lockHelp.unlock();
             }
             if (stack.size() == 3){
-            this.dormi = false;
-           
+            this.semExit.release(1);
             }
             
             if(this.richieste == 0 && !this.stack.isEmpty()){
@@ -91,6 +90,7 @@ public class Negozio {
     
    
     public void risolvi(){
+        
             lockHelp.lock();
         try {
             while (!stack.isEmpty()){
@@ -101,12 +101,13 @@ public class Negozio {
                System.out.println(e);}
             }
         } finally {
+            
             this.semHelp.release(3);
             lockHelp.unlock();
             }
         this.risolto = true;
-        this.dormi = true;
-    }
+      
+        }
     
     public void attesa(long tempo){
     this.richiesta.lock();

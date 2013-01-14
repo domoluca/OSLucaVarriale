@@ -20,16 +20,26 @@ this.negozio = negozio;
 public void run(){
     
     while(this.negozio.lavora){
-        while (this.negozio.dormi == true){
-        try{         
-            Thread.sleep(1);
-            }catch(Exception e){
-            System.out.println(e);
-            }
-           
+        try {
+            /*  try{
+              this.negozio.semExit.acquire();
+                  }catch(InterruptedException e){
+                      this.negozio.termina();
+                  }
+
+
+              while (this.negozio.dormi == true){
+              try{         
+                  Thread.sleep(1);
+                  }catch(Exception e){
+                  System.out.println(e);
+                  }*/
+                  
+              
+                 this.negozio.semExit.acquire(); 
+        } catch (InterruptedException e) {
+            this.negozio.termina();
         }
-         
-           System.out.println("Babbo Natale aggiusta");
            this.negozio.risolvi();
                     
         }
