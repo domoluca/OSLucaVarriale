@@ -6,6 +6,8 @@ package osvarrialeluca;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class OSVarrialeLuca {
 
@@ -65,17 +67,14 @@ public class OSVarrialeLuca {
       try{
              for(int i=0; i<numElfi; i++) {
               elfi[i].join();
-          }
-            babboNatale.join();
-
+            }
+            //babboNatale.join();
         }catch(Exception e){
          System.out.println(e);
         }
-      
-    
-      if(negozio.richieste == 0 && negozio.stack.isEmpty()){
-      babboNatale.interrupt();
-      System.out.println("tutti i regali sono nella slitta!!!!!!!!!!!!!!!");
+       // babboNatale.join();
+        babboNatale.destroy();
+        
 }
     }
-}
+//}

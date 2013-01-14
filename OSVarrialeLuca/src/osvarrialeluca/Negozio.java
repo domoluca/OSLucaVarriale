@@ -18,7 +18,7 @@ public class Negozio {
     BabboNatale babboNatale;
     Stack stack = new Stack();
     Stack tempiAttesa = new Stack();
-    Lock lockStackFine = new ReentrantLock();
+    Lock lockStackFine = null;
     int dimStack = 0;
     int permessi = 3;
     boolean dormi = true; 
@@ -27,6 +27,7 @@ public class Negozio {
     Lock lockHelp = null;               
     Lock richiesta = null;
     boolean risolto;
+    boolean lavora = true;
     boolean elfoDormi = false;
     Semaphore semHelp = new Semaphore(0);
     Semaphore semExit = new Semaphore(0);
@@ -39,6 +40,7 @@ public class Negozio {
         this.semExit = new Semaphore(0);
         this.richiesta = new ReentrantLock();
         this.lockHelp = new ReentrantLock();
+        this.lockStackFine = new ReentrantLock();
         this.richiesta = new ReentrantLock();
         this.richieste = rc;
         }
@@ -104,14 +106,7 @@ public class Negozio {
             }
         this.risolto = true;
         this.dormi = true;
-        if(this.richieste == 0 && this.stack.isEmpty()){
-        this.tempoMedio = this.tempoAttesa/this.lunghezza;
-        System.out.println("il tempo medio di attesa degli elfi è di "
-                           +this.tempoMedio+" millisecondi");
-        }
-    
-        
-      }
+    }
     
     public void attesa(long tempo){
     this.richiesta.lock();
@@ -121,6 +116,15 @@ public class Negozio {
         } finally {
             this.richiesta.unlock();
         }
+    }
+    
+    public void termina(){
+    System.out.println("tutti i regali sono nella slitta!!!!!!!!!!!!!!!");
+      this.tempoMedio = this.tempoAttesa/this.lunghezza;
+        System.out.println("il tempo medio di attesa degli elfi è di "
+                           +this.tempoMedio+" millisecondi");
+        this.lavora = false;
+    
     }
   }
 

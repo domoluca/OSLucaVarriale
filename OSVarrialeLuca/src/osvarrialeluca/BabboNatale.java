@@ -18,20 +18,20 @@ super(nome);
 this.negozio = negozio;
     }
 public void run(){
-    while(true){
+    
+    while(this.negozio.lavora){
         while (this.negozio.dormi == true){
         try{         
             Thread.sleep(1);
             }catch(Exception e){
             System.out.println(e);
             }
-            
+           
         }
-           //this.negozio.risolto = false;
+         
            System.out.println("Babbo Natale aggiusta");
            this.negozio.risolvi();
-           }
-           }
-
-
-}
+                    
+        }
+    
+}}
