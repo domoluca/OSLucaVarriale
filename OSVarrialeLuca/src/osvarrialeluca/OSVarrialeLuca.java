@@ -72,6 +72,7 @@ public class OSVarrialeLuca {
          System.out.println(e);
         }
       
+    
       if(negozio.richieste == 0 && negozio.stack.isEmpty()){
       babboNatale.interrupt();
       System.out.println("tutti i regali sono nella slitta!!!!!!!!!!!!!!!");

@@ -18,8 +18,6 @@ public class Elfo extends Thread{
     super(nome);
     this.negozio = ne;
     this.nome = nome;
-    
-    
     }
     
     public void run(){
@@ -37,10 +35,10 @@ public class Elfo extends Thread{
             
             try {
                  this.negozio.semHelp.acquire();
-                 //this.negozio.risolto = true;
             } catch (InterruptedException ex) {
                 Logger.getLogger(Elfo.class.getName()).log(Level.SEVERE, null, ex);
             }
+            long temp = System.currentTimeMillis();
             this.negozio.help(nome, pid);
             while(this.negozio.risolto == false){
                 try{
@@ -48,16 +46,18 @@ public class Elfo extends Thread{
                     }catch(Exception e){
                     System.out.println(e);
                     }
-            }
-        }
-        
-    }   
+          }
+            long temp1 = System.currentTimeMillis();
+            long attesa = (temp1 - temp);
+            this.negozio.attesa(attesa);
+    }  
+    }
     if(!this.negozio.stack.isEmpty()){
             this.negozio.risolvi();
-            }
+            
     }
     
-
+    }
     
     public void produci(int pid){
         
@@ -70,4 +70,5 @@ public class Elfo extends Thread{
             }
       }
     
+
 }
