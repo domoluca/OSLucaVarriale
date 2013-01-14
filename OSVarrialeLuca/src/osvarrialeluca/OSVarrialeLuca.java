@@ -59,15 +59,22 @@ public class OSVarrialeLuca {
             elfi[i] = new Elfo(negozio, "elfo " +i);
         }
        babboNatale.start();
-      for(int i=0; i<numElfi; i++)
+      for(int i=0; i<numElfi; i++) {
             elfi[i].start();
+        }
       try{
-            for(int i=0; i<numElfi; i++)
-                elfi[i].join();
+             for(int i=0; i<numElfi; i++) {
+              elfi[i].join();
+          }
             babboNatale.join();
 
         }catch(Exception e){
          System.out.println(e);
         }
+      
+      if(negozio.richieste == 0 && negozio.stack.isEmpty()){
+      babboNatale.interrupt();
+      System.out.println("tutti i regali sono nella slitta!!!!!!!!!!!!!!!");
+}
     }
 }

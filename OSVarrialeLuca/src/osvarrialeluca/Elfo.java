@@ -26,8 +26,10 @@ public class Elfo extends Thread{
     System.out.println("sono l'"+this.nome+" e sono partito");   
     while(this.negozio.richieste > 0){
         int possibileGuasto = (int)(Math.random()*99);
+        this.negozio.richiesta.lock();
         this.negozio.richiestaRegalo();
         int pid = this.negozio.richiestaAttuale;
+        this.negozio.richiesta.unlock();
         if (possibileGuasto > 44){
         produci(pid);
         }
@@ -39,8 +41,7 @@ public class Elfo extends Thread{
             } catch (InterruptedException ex) {
                 Logger.getLogger(Elfo.class.getName()).log(Level.SEVERE, null, ex);
             }
-            System.out.println("sono l'"+nome+", c'è stato un guasto con il regalo "+pid);                
-            this.negozio.help(pid);
+            this.negozio.help(nome, pid);
             while(this.negozio.risolto == false){
                 try{
                      Elfo.sleep(0);
@@ -49,9 +50,14 @@ public class Elfo extends Thread{
                     }
             }
         }
-         
+        
+    }   
+    if(!this.negozio.stack.isEmpty()){
+            this.negozio.risolvi();
+            }
     }
-}
+    
+
     
     public void produci(int pid){
         

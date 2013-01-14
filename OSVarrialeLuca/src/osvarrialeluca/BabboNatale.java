@@ -25,6 +25,7 @@ public void run(){
             }catch(Exception e){
             System.out.println(e);
             }
+            
         }
            //this.negozio.risolto = false;
            System.out.println("Babbo Natale aggiusta");
